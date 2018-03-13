@@ -28,6 +28,6 @@ import * as UIModule from './UIModule.js'
     })()
 
 
-    $.get(`http://api.tvmaze.com/shows/${dataModule.fetchID()}?embed[]=seasons&embed[]=episodes&embed[]=cast&embed[]=crew&embed[]=akas`)
-    .done(onSuccessSingleHandler)
-    .fail(onErrorSingleHandler);
+    fetch(`http://api.tvmaze.com/shows/${dataModule.fetchID()}?embed[]=seasons&embed[]=episodes&embed[]=cast&embed[]=crew&embed[]=akas`)
+    .then(response => response.json())
+    .then(response => onSuccessSingleHandler(response), response => onSuccessSingleHandler(response),)

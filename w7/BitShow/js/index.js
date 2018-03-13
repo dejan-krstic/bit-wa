@@ -3,11 +3,12 @@ import * as UIModule from './UIModule.js'
 
       
 
-    const onErrorHandler = () => {
-        alert(UIModule.status.ERROR);
-    }
+    // const onErrorHandler = (response) => {
+    //     alert(UIModule.status.ERROR);
+    // }
 
-    const onSuccessHandler = (response) => {        
+    const onSuccessHandler = (response) => {   
+        console.log(response);     
         let dataResponse = dataModule.adaptShowsResponse(response, 50);
         UIModule.createMainEverything(dataResponse);
    }
@@ -15,9 +16,9 @@ import * as UIModule from './UIModule.js'
 
     const liveSearch = () => {
         let searchValue = $(UIModule.UISelectors.checkSearch);
-        $.get(`http://api.tvmaze.com/search/shows?q=${searchValue.val()}`)        
-        .done(onSuccessSearchHandler)
-        .fail(onErrorSearchHandler);     
+        fetch(`http://api.tvmaze.com/search/shows?q=${searchValue.val()}`)  
+        .then(response => response.json())
+        .then(response => onSuccessSearchHandler(response), response => onErrorSearchHandler(response)) 
     }
 
     const onErrorSearchHandler = () => {
@@ -25,6 +26,8 @@ import * as UIModule from './UIModule.js'
     }
 
     const onSuccessSearchHandler = ((response) => {
+
+        
         let marker = ''; 
         return (response) => { 
             if (JSON.stringify(response) != marker) {
@@ -45,6 +48,11 @@ import * as UIModule from './UIModule.js'
         })
     })()
 
-    $.get('http://api.tvmaze.com/shows')
-    .done(onSuccessHandler)
-    .fail(onErrorHandler);
+    fetch('http://api.tvmaze.com/shows')
+        .then(response => {
+            console.log(response); 
+            const resp = response.json();
+            console.log(resp);
+            return resp;
+        })
+        .then(response => onSuccessHandler(response), response => onErrorHandler(response))
