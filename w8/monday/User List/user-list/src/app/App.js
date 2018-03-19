@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import Header from './header';
+import Header from './partials/Header';
+import Footer from './partials/Footer';
 import UsersList from './users/UsersList';
 import userService from '../services/UserService';
 
@@ -9,16 +10,26 @@ import userService from '../services/UserService';
 class App extends Component {
   constructor (props) {
     super(props);
-
+    this.state = {
+      userArr : []
+    }
   }
-
-
-
+  componentDidMount(){
+    userService.getData().then((res)=>{
+      this.setState((prevState, props) => {
+          console.log(res);
+          return {userArr : res}    
+      });
+       }
+    )
+  }
+  
   render() {
-    
     return (
       <div className="App">
-          <UsersList />
+          <Header />
+          <UsersList userArray = {this.state.userArr}/>
+          <Footer />
       </div>
     );
   }

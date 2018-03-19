@@ -8,13 +8,17 @@ class UserService {
                 return result.json()
             })
             .then((res)=>{
-                return res.map((user)=> {
-                    new User(user.name.first, user.email, user.dob, user.image.thumbnail);
-                })
+                console.log(res);
+
+                const a = res.results.map((user)=> new User(user.name.first, user.email, user.dob, user.picture.thumbnail));
+
+                return a;
             })
             /* usersData.map(user => {
             return new User(user) */
         )
     }
 }
- export const userService = new UserService();
+ const userService = new UserService();
+
+ export default userService;
