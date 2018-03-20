@@ -8,29 +8,39 @@ import userService from '../services/UserService';
 
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      userArr : []
+      userArr: [],
+      userGrid: false,
+      view: "view_module"
     }
+    this.changeView = this.changeView.bind(this)
   }
-  componentDidMount(){
-    userService.getData().then((res)=>{
+
+  componentDidMount() {
+    userService.getData().then((res) => {
       this.setState((prevState, props) => {
-          console.log(res);
-          return {userArr : res}    
+        console.log(res);
+        return { userArr: res }
       });
-       }
-    )
+    })
   }
-  
+
+  changeView() {
+    this.setState((prevState, props) => {
+      return {userGrid: !(prevState.userGrid),
+              view: (prevState.userGrid) ? "view_module" : "view_list"}
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-          <Header />
-          <UsersList userArray = {this.state.userArr}/>
-          <Footer />
-      </div>
+      <React.Fragment>
+        <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} />
+        <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />
+        <Footer />
+      </React.Fragment>
     );
   }
 }

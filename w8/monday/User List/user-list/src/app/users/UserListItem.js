@@ -3,16 +3,17 @@ import React from 'react';
 
 const UserListItem = props => {
     return (
-        <div class="col s12 m7">
-            <div class="card horizontal">
-                <div class="card-image">
-                    <img alt="" class={(props.kljuc%2)?("App-logo"):("App-anti-logo")} src={props.data.imageURL} />
+        <div className="col s12 m7">
+            <div className="card horizontal">
+                <div className="card-image">
+                    <img alt="pic" className={(props.kljuc%2)?("App-logo"):("App-anti-logo")} src={props.data.imageURL} />
                 </div>
-                <div class="card-stacked">
-                    <div class="card-content">
+                <div className="card-stacked">
+                    <div className="card-content">
                         <p>{props.data.name}</p>
-                        <p>{props.data.email}</p>
-                        <p>{props.data.dob}</p>
+                        <p><i className="material-icons">email</i>{props.data.getData()}</p> 
+                        
+                        <p><i className="material-icons">cake</i>{props.data.dob}</p>
                     </div>
                 </div>
             </div>
@@ -20,5 +21,5 @@ const UserListItem = props => {
 
             )       
         }
-        
+        // https://cdn3.iconfinder.com/data/icons/birthday-celebration/60/birthday_cake_party_tier_candle-512.png
 export default UserListItem;

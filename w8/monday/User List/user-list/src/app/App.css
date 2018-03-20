@@ -2,14 +2,15 @@
   text-align: center;
 }
 
-.App-logo {
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
+
 }
 .App-anti-logo {
   animation: App-anti-logo-spin infinite 20s linear;
   height: 80px;
-}
+} */
 
 .App-header {
   background-color: #222;
@@ -26,21 +27,28 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 @keyframes App-anti-logo-spin {
   from { transform: rotate(360deg); }
   to { transform: rotate(0deg); }
-}
+} */
 
 p {
   text-align: left;
   margin: 0;
 }
+p>p {
+  display: inline-block;
+  padding: 4px;
+}
 
 .horizontal {
   padding-left: 20px;
+}
+img {
+  border-radius:  0px!important;
 }
 

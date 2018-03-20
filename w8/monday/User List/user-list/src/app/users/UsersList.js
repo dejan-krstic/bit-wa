@@ -1,11 +1,12 @@
 import React from 'react';
 import UserListItem from './UserListItem'
+import UserCardItem from './UserCardItem'
 // import userService from '../services/UserService.js';
 
 
 const UsersList = props => {
-        return (<div>
-                     {props.userArray.map((e, i) => <UserListItem data = {e} kljuc = {i}/>)}
+        return (<div className={(props.grid) ? "row container" : "container"}>
+                     {(props.grid) ? props.userArray.map((e, i) => <UserCardItem data = {e} kljuc = {i} key = {i}/>) : props.userArray.map((e, i) => <UserListItem data = {e} kljuc = {i} key = {i}/>)}
                 </div>)
         }
 

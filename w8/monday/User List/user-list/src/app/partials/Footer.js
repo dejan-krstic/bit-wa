@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Footer = props => <footer class="page-footer">
-    <div class="footer-copyright">
-        <div class="container">
+const Footer = props => <footer className="page-footer">
+    <div className="footer-copyright">
+        <div className="container">
             <p>&copy; 2018 Copyright BIT</p>
         </div>
     </div>
