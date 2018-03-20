@@ -51,4 +51,9 @@ p>p {
 img {
   border-radius:  0px!important;
 }
-
+div.female {
+  background-color: #ffebee;
+}
+#search {
+  margin: 0;
+}
