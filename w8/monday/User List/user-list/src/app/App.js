@@ -54,11 +54,11 @@ class App extends Component {
   }
   
   searchHandler (event) {
-      const etv = event.target.value;
+      const etv = event.target.value.toLowerCase();
       this.componentMount();
       if (event.target.value){
       this.setState((prevState, props)=> {
-          return {userArr: prevState.userArr.filter(e=>e.fullName.includes(etv))}
+          return {userArr: prevState.userArr.filter(e=>e.fullName.toLowerCase().includes(etv))}
      })
     }
   }
@@ -83,7 +83,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} fresh={this.freshView}/>
-    {(this.state.loading)? <LoadingAnimation /> : <React.Fragment><Search changeHandler={this.searchHandler}/> <Switch> <Route path="/about" component={About}/>  <Route exact path="/" render={() => <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />}/> </Switch></React.Fragment> }
+    {(this.state.loading)? <LoadingAnimation /> : <React.Fragment> <Switch> <Route path="/about" component={About}/>  <Route exact path="/" render={() => <React.Fragment><Search changeHandler={this.searchHandler}/> <UsersList grid={this.state.userGrid} userArray={this.state.userArr} /></React.Fragment>}/> </Switch></React.Fragment> }
         
         <Footer />
       </React.Fragment>
