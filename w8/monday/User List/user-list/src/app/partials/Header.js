@@ -1,13 +1,14 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom'
+import Buttons from './Buttons'
 
 const Header = props => (
     <nav>
         <div className="z-depth-0 nav-wrapper">
-            <a className="brand-logo center">BIT Persons</a>
-            <ul className="right hide-on-med-and-down">
-                <li onClick={props.fresh}><a><i className="material-icons">refresh</i></a></li>
-                <li onClick={props.action}><a><i className="material-icons">{props.view}</i></a></li>
-            </ul>
+            <a className="brand-logo center" href="/">BIT Persons</a>
+            <Switch>
+                <Route exact path='/' render={() => (<Buttons fresh={props.fresh} view={props.view} action={props.action}/>)}/>
+            </Switch>
 
         </div>
     </nav>

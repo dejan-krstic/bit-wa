@@ -7,6 +7,7 @@ import userService from '../services/UserService';
 import Search from './partials/Search';
 import {Route, Link, Redirect, Switch} from 'react-router-dom';
 import LoadingAnimation from './partials/LoadingAnimation'
+import About from './about/About'
 // import User from '../entities/User.js';    //recreating User objects after JSON.stringify/parse so they could have methods - abandoned solution
 
 
@@ -82,8 +83,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} fresh={this.freshView}/>
-        {(this.state.loading)? <LoadingAnimation /> : <React.Fragment><Search changeHandler={this.searchHandler}/> <UsersList grid={this.state.userGrid} userArray={this.state.userArr} /> </React.Fragment> }
-
+    {(this.state.loading)? <LoadingAnimation /> : <React.Fragment><Search changeHandler={this.searchHandler}/> <Switch> <Route path="/about" component={About}/>  <Route exact path="/" render={() => <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />}/> </Switch></React.Fragment> }
         
         <Footer />
       </React.Fragment>
