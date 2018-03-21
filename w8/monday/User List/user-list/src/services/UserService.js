@@ -10,8 +10,8 @@ class UserService {
             .then((res)=>{
                 console.log(res);
 
-                const a = res.results.map((user)=> new User(user.name.first, user.email, user.dob, user.picture.large));
-
+                const a = res.results.map((user)=> new User(`${user.name.first} ${user.name.last}`, user.email, user.dob, user.picture.large));
+                localStorage.setItem('data', JSON.stringify(a));
                 return a;
             })
             /* usersData.map(user => {

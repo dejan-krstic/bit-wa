@@ -10,9 +10,9 @@ const UserListCard = props => {
               <span className="card-title">{props.data.name}</span>
             </div>
             <div className="card-content">
-            <p><img src="http://cdn.onlinewebfonts.com/svg/img_504350.png" width="15px" alt="pic"/><p>{props.data.getData()}</p></p> 
+            <p>{props.data.getData()}</p>
                         
-            <p><img src="https://cdn3.iconfinder.com/data/icons/birthday-celebration/60/birthday_cake_party_tier_candle-512.png" width="15px" alt="pic"/><p>{props.data.dob}</p></p>
+            <p>{props.data.dob}</p>
             </div>
           </div>
         </div>

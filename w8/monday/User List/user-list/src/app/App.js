@@ -15,16 +15,18 @@ class App extends Component {
       userGrid: false,
       view: "view_module"
     }
-    this.changeView = this.changeView.bind(this)
+    this.changeView = this.changeView.bind(this);
+    this.refreshUsers = this.refreshUsers.bind(this);
   }
 
   componentDidMount() {
-    userService.getData().then((res) => {
-      this.setState((prevState, props) => {
-        console.log(res);
-        return { userArr: res }
-      });
-    })
+    if (localStorage.data) {
+      this.setState({
+        userArr: JSON.parse(localStorage.data)
+      })
+    } else {
+      this.refreshUsers()
+    }
   }
 
   changeView() {
@@ -34,10 +36,19 @@ class App extends Component {
     })
   }
 
+  refreshUsers() {
+    userService.getData().then((res) => {
+      this.setState((prevState, props) => {
+        console.log(res);
+        return { userArr: res }
+      });
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
-        <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} />
+        <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} refresh={this.refreshUsers} />
         <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />
         <Footer />
       </React.Fragment>
