@@ -7,7 +7,7 @@ const Search = (props) => {
                 <div className="input-field">
                     <i className="material-icons prefix">search</i>
                     <input onChange={props.changeHandler} id="icon_prefix" type="text" className="validate" />
-                    <label for="icon_prefix">Search Users</label>
+                    <label htmlFor="icon_prefix">Search Users</label>
                 </div>
             </form>
         </div>
