@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import Header from './partials/Header';
 import Footer from './partials/Footer';
 import UsersList from './users/UsersList';
 import userService from '../services/UserService';
-import User from '../entities/User.js';
+import Search from './partials/Search';
+import {Route, Link, Redirect, Switch} from 'react-router-dom';
+// import User from '../entities/User.js';    //recreating User objects after JSON.stringify/parse so they could have methods - abandoned solution
 
 
 class App extends Component {
@@ -15,43 +16,26 @@ class App extends Component {
       userArr: [],
       userGrid: false,
       view: "view_module",
-      searchText : ''
+      searchText : 'Search users here'
     }
-<<<<<<< HEAD
-    this.changeView = this.changeView.bind(this);
-    this.refreshUsers = this.refreshUsers.bind(this);
-  }
-
-  componentDidMount() {
-    if (localStorage.data) {
-      this.setState({
-        userArr: JSON.parse(localStorage.data)
-      })
-    } else {
-      this.refreshUsers()
-    }
-=======
-    this.changeView = this.changeView.bind(this)
-    this.componentDidMount = this.componentDidMount.bind(this)
     this.freshView = this.freshView.bind(this)
+    this.changeView = this.changeView.bind(this)
     this.searchHandler = this.searchHandler.bind(this)
+    this.componentMount = this.componentMount.bind(this)
   }
 
   freshView() {
     userService.getData().then((res) => {
       this.setState((prevState, props) => {
         localStorage.setItem('userArr', JSON.stringify(res));
-        console.log(JSON.parse(localStorage.getItem('userArr')));
-        console.log(res);
         return { userArr: res }
       });
     })
->>>>>>> c239227b286e75a7b48f89c056ddff2f63b1b832
   }
-  componentDidMount(){
+  componentMount(){
     if (localStorage.getItem('userArr')) {
-      let userTemp = JSON.parse(localStorage.getItem('userArr'))
-      userTemp = userTemp.map( (e) => new User(e.name, e.email, e.dob, e.imageURL, e.gender))
+      const userTemp = JSON.parse(localStorage.getItem('userArr'))
+      // userTemp = userTemp.map( (e) => new User(e.name, e.email, e.dob, e.imageURL, e.gender)) // recreating User objects after JSON.stringify/parse so they could have methods - abandoned solution
       this.setState((prevState, props) => {
         return { userArr : userTemp }
       })
@@ -59,13 +43,16 @@ class App extends Component {
       this.freshView()
     }
   }
+  componentDidMount() {
+    this.componentMount();
+  }
   
   searchHandler (event) {
-      let etv = event.target.value;
-      this.componentDidMount();
+      const etv = event.target.value;
+      this.componentMount();
       if (event.target.value){
       this.setState((prevState, props)=> {
-          return {userArr: prevState.userArr.filter(e=>e.name.includes(etv))}
+          return {userArr: prevState.userArr.filter(e=>e.fullName.includes(etv))}
      })
     }
   }
@@ -89,11 +76,8 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-<<<<<<< HEAD
-        <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} refresh={this.refreshUsers} />
-=======
-        <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} fresh={this.freshView} changeHandler={this.searchHandler}/>
->>>>>>> c239227b286e75a7b48f89c056ddff2f63b1b832
+        <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} fresh={this.freshView}/>
+        <Search changeHandler={this.searchHandler}/>
         <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />
         <Footer />
       </React.Fragment>

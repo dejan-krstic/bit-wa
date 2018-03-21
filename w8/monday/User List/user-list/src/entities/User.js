@@ -1,15 +1,12 @@
 export default class User {
-    constructor(name, email, dob, imageURL, gender){
-        this.name = name;
+    constructor(firstName, lastName, email, dob, imageURL, gender){
+        this.firstName = firstName;
+        this.fullName = `${firstName} ${lastName}`;
         this.email = email;
-<<<<<<< HEAD
+        this.hiddenEmail = this.getData();
         this.dob = this.formatDate(dob);
-        this.imageURL = imageURL
-=======
-        this.dob = new Date(dob).toDateString();
         this.imageURL = imageURL;
         this.gender = gender;
->>>>>>> c239227b286e75a7b48f89c056ddff2f63b1b832
     }
     getData () {
         const a = this.email.split('@');
