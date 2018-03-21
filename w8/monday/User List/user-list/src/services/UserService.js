@@ -8,14 +8,18 @@ class UserService {
                 return result.json()
             })
             .then((res)=>{
+<<<<<<< HEAD
                 console.log(res);
 
                 const a = res.results.map((user)=> new User(`${user.name.first} ${user.name.last}`, user.email, user.dob, user.picture.large));
                 localStorage.setItem('data', JSON.stringify(a));
+=======
+                console.log(res.results);
+                const a = res.results.map((user)=> new User(user.name.first, user.email, user.dob, user.picture.large, user.gender));
+>>>>>>> c239227b286e75a7b48f89c056ddff2f63b1b832
                 return a;
             })
-            /* usersData.map(user => {
-            return new User(user) */
+
         )
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 
 
 const UserListCard = props => {
+<<<<<<< HEAD
     return (
         <div className="col s4 m4">
           <div className="card">
@@ -15,10 +16,25 @@ const UserListCard = props => {
             <p>{props.data.dob}</p>
             </div>
           </div>
+=======
+  return (
+    <div className="col s4 m4">
+      <div className="card">
+        <div className="card-image">
+          <img alt="pic" className={(props.kljuc % 2) ? ("App-logo") : ("App-anti-logo")} src={props.data.imageURL} />
+          <span className="card-title">{props.data.name}</span>
+>>>>>>> c239227b286e75a7b48f89c056ddff2f63b1b832
         </div>
+        <div className={props.data.gender + " card-content"}>
+          <p><i className="material-icons">email</i>{props.data.getData()}</p>
+          <p><i className="material-icons">cake</i>{props.data.dob}</p>
+        </div>
+      </div>
+    </div>
 
 
-            )       
-        }
+
+  )
+}
 
 export default UserListCard;
