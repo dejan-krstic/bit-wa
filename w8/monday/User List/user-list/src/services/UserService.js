@@ -1,14 +1,12 @@
 import User from '../entities/User.js';
+import axios from 'axios';
 
 class UserService {
     getData() {
         return (
-            fetch('https://randomuser.me/api/?results=15')
-            .then((result)=> {
-                return result.json()
-            })
-            .then((res)=>{
-                console.log(res.results);
+            axios.get('https://randomuser.me/api/?results=15')
+            .then((response)=>{
+                const res = response.data;
                 const a = res.results.map((user)=> new User(user.name.first, user.name.last, user.email, user.dob, user.picture.large, user.gender));
                 return a;
             })

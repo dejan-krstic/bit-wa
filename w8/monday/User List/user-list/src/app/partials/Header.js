@@ -4,7 +4,7 @@ import Buttons from './Buttons'
 
 const Header = props => (
     <nav>
-        <div className="z-depth-0 nav-wrapper">
+        <div className="nav-wrapper">
             <a className="brand-logo center" href="/">BIT Persons</a>
             <Switch>
                 <Route exact path='/' render={() => (<Buttons fresh={props.fresh} view={props.view} action={props.action}/>)}/>
