@@ -8,6 +8,7 @@ const Search = (props) => {
                     <i className="material-icons prefix">search</i>
                     <input onChange={props.changeHandler} id="icon_prefix" type="text" className="validate" />
                     <label htmlFor="icon_prefix">Search Users</label>
+                    {props.maleFemaleDiv()}
                 </div>
             </form>
         </div>

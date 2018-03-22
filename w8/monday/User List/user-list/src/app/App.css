@@ -134,3 +134,7 @@ div.female {
             transform: scale3D(0, 0, 1);
   } 
 }
+
+.right {
+  text-align: right;
+}

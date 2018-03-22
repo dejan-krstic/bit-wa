@@ -8,6 +8,7 @@ import Search from '../partials/Search';
 import { Route, Link, Redirect, Switch } from 'react-router-dom';
 import LoadingAnimation from '../partials/LoadingAnimation';
 import Message from '../partials/Message';
+import calculateUpdateDuration from '../../shared/helperFunctions'
 // import User from '../entities/User.js';    //recreating User objects after JSON.stringify/parse so they could have methods - abandoned solution
 
 
@@ -15,130 +16,136 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      users: [],
       userArr: [],
-      userGrid: false,
-      view: "view_module",
+      userGrid: (localStorage.getItem('grid') === "true"),
       searchText: 'Search users here',
       loading: false,
-      lastUpdateTime: Number(localStorage.getItem('lastUpdateTime')) || Date.now(),
-      updateDuration: localStorage.getItem('updateDuration') || 'Last update: just now',
-
-
+      lastUpdateTime: Date.now(),
+      updateDuration: 'Last update: just now',
+      // maleFemale: [1,0]
     }
+
     this.freshView = this.freshView.bind(this)
     this.changeView = this.changeView.bind(this)
     this.searchHandler = this.searchHandler.bind(this)
     this.componentMount = this.componentMount.bind(this)
-    this.calculateUpdateDuration = this.calculateUpdateDuration.bind(this)
+    this.genderStats = this.genderStats.bind(this)
+    this.changeState = this.changeState.bind(this)
+    this.maleFemaleDiv = this.maleFemaleDiv.bind(this)
   }
 
-  calculateUpdateDuration() {
-    this.setState((prevState, props) => {
-      const diff = Date.now() - this.state.lastUpdateTime;
-      console.log(diff);
-      console.log(this.state.lastUpdateTime);
-      let updateDurationString = 'Last update: just now';    
-      if (diff < 60000) {
-      return { updateDuration: updateDurationString }
-    } else if (diff < 36000000) {
-      updateDurationString = `Last update: ${Math.floor(diff / 60000)} minute${diff<120000?"":"s"} ago`;
-      return { updateDuration: updateDurationString }
-    } else if (diff < 24 * 60 * 60 * 1000) {
-      updateDurationString = `Last update: ${Math.floor(diff / 60 / 60 / 1000)} hours ago`;
-      return { updateDuration: updateDurationString }
-    } else if (diff < 7 * 24 * 60 * 60 * 1000) {
-      updateDurationString = `Last update: ${Math.floor(diff / 24 / 60 / 60 / 1000)} days ago`;
-      return { updateDuration: updateDurationString }
-    } else if (diff < 30 * 24 * 60 * 60 * 1000) {
-      updateDurationString = `Last update: ${Math.floor(diff / 7 / 24 / 60 / 60 / 1000)} weeks ago`;
-      return { updateDuration: updateDurationString }
-    } else if (diff < 30 * 24 * 60 * 60 * 1000) {
-      updateDurationString = `Last update: ${Math.floor(diff / 7 / 24 / 60 / 60 / 1000)} months ago`;
-      return { updateDuration: updateDurationString }
-    }
+  changeState(value) {
+    console.log(value)
+    this.setState({
+      updateDuration: value
+    })
+    console.log(this.state.updateDuration);
   }
-    )}
 
-    freshView = () => {
-      this.setState({ loading: true })
-      userService.getData().then((res) => {
-        this.setState((prevState, props) => {
-          localStorage.setItem('userArr', JSON.stringify(res));
-          let currentTime = Date.now();
-          localStorage.setItem('lastUpdateTime', currentTime);
-          return {
-            userArr: res,
-            loading: false,
-            lastUpdateTime: currentTime,
-            updateDuration: 'Last update: just now'
-          }
-        });
+  freshView = () => {
+    this.setState({ loading: true })
+    userService.getData().then((res) => {
+      this.setState((prevState, props) => {
+        localStorage.setItem('userArr', JSON.stringify(res));
+        let currentTime = Date.now();
+        localStorage.setItem('lastUpdateTime', currentTime);
+        return {
+          userArr: res,
+          users: res,
+          loading: false,
+          lastUpdateTime: currentTime,
+          updateDuration: 'Last update: just now'
+        }
       })
-    }
+      })
+      // .then(() =>{ this.genderStats()
+      // console.log(this.state.maleFemale)})
+}
 
-    componentMount(){
-      setInterval(() => { this.calculateUpdateDuration() }, 1000);
-      if (localStorage.getItem('userArr')) {
-        const userTemp = JSON.parse(localStorage.getItem('userArr'))
-        this.setState((prevState, props) => {
-          return { userArr: userTemp }
-        })
-      } else {
-        this.freshView()
-      }
-    }
-    componentDidMount() {
-      this.componentMount();
-    }
-
-    searchHandler(event) {
-      const etv = event.target.value.toLowerCase();
-      this.componentMount();
-      if (event.target.value) {
-        this.setState((prevState, props) => {
-          return { userArr: prevState.userArr.filter(e => e.fullName.toLowerCase().includes(etv)) }
-        })
-      }
-    }
-
-    changeView() {
+  componentMount() {
+    setInterval(() => { calculateUpdateDuration(this.state.lastUpdateTime, this.changeState) }, 60000);
+    if (localStorage.getItem('userArr')) {
+      const userTemp = JSON.parse(localStorage.getItem('userArr'))
       this.setState((prevState, props) => {
         return {
-          userGrid: !(prevState.userGrid),
-          view: (prevState.userGrid) ? "view_module" : "view_list"
+          userArr: userTemp,
+          user: userTemp,
+        }
+      })
+    } else {
+      this.freshView()
+    }
+  }
+  componentDidMount() {
+    this.componentMount();
+  }
+
+  searchHandler(event) {
+    const etv = event.target.value.toLowerCase();
+    this.componentMount();
+    if (event.target.value) {
+      this.setState((prevState, props) => {
+        return {
+          userArr: prevState.userArr.filter(e => e.fullName.toLowerCase().includes(etv)),
         }
       })
     }
-
-
-    noResults() {
-      if (!this.state.userArr.length) {
-        return <Message />
-      }
-    }
-
-    waitingToLoad() {
-      if (this.state.loading) {
-        return <LoadingAnimation />
-      }
-      return (
-        <React.Fragment>
-          <Search grid={this.state.userGrid} changeHandler={this.searchHandler} />
-          {this.noResults()}
-          <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />
-        </React.Fragment>
-      )
-    }
-
-    render() {
-      return (
-        <React.Fragment>
-          <Header action={this.changeView} view={this.state.view} grid={this.state.userGrid} fresh={this.freshView} />
-          {this.waitingToLoad()}
-          <Footer updateDuration={this.state.updateDuration} />
-        </React.Fragment>
-      );
-    }
   }
 
-  export default Home;
+  changeView() {
+    localStorage.setItem('grid', !this.state.userGrid);
+    this.setState((prevState, props) => {
+      return {
+        userGrid: !(prevState.userGrid),
+      }
+    })
+  }
+
+
+  noResults() {
+    if (!this.state.userArr.length) {
+      return <Message />
+    }
+  }
+  
+  genderStats(){
+    let male = 0;
+    let female = 0;
+    female = this.state.userArr.reduce((a, e) => {
+      return a + (e.gender === "female")
+    },0)
+    male = this.state.userArr.length - female;
+    return ([male, female])
+  }
+
+  maleFemaleDiv() {
+    const mf = this.genderStats();
+    return <p className="right">{`Male: ${mf[0]} Female: ${mf[1]}`}</p>
+  }
+
+  waitingToLoad() {
+    if (this.state.loading) {
+      return <LoadingAnimation />
+    }
+    return (
+      <React.Fragment>
+        <Search changeHandler={this.searchHandler} maleFemaleDiv = {this.maleFemaleDiv} />
+        {this.noResults()}        
+        <UsersList grid={this.state.userGrid} userArray={this.state.userArr} />
+      </React.Fragment>
+    )
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Header action={this.changeView} grid={this.state.userGrid} fresh={this.freshView} />
+        {this.waitingToLoad()}
+        <Footer updateDuration={this.state.updateDuration} />
+      </React.Fragment>
+    );
+  }
+}
+
+export default Home;
