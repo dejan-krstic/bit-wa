@@ -23,7 +23,8 @@ class Home extends Component {
       loading: false,
       lastUpdateTime: Date.now(),
       updateDuration: 'Last update: just now',
-      // maleFemale: [1,0]
+      male: -1,
+      female: -1
     }
 
     this.freshView = this.freshView.bind(this)
@@ -110,18 +111,23 @@ class Home extends Component {
   }
   
   genderStats(){
-    let male = 0;
-    let female = 0;
-    female = this.state.userArr.reduce((a, e) => {
-      return a + (e.gender === "female")
-    },0)
-    male = this.state.userArr.length - female;
-    return ([male, female])
+    const isFemale = (acc, user) => {
+      (user.gender === "female") ?
+        acc.female++ :
+        acc.male++
+    }
+    const stats = this.state.userArr.reduce((a, e) => {
+      isFemale(a, e);
+      return a;
+    },{female: 0, male: 0})
+    // this.setState({female, male})
+    return stats;
   }
+  //  femaleMale = this.state.userArr.reduce(({}, e) => {
 
   maleFemaleDiv() {
     const mf = this.genderStats();
-    return <p className="right">{`Male: ${mf[0]} Female: ${mf[1]}`}</p>
+    return <p className="right">{`Male: ${mf.male} Female: ${mf.female}`}</p>
   }
 
   waitingToLoad() {
