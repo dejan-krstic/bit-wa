@@ -20,7 +20,7 @@ class HomePage extends Component {
 
     render() {
         return <div className="container">
-            <h3>POSTS</h3>
+            <h3 className="text-center">POSTS</h3>
             <ul>
                 {this.state.postList.map(post => <PostItem id={post.id} key={post.id} post={post}/>)}
             </ul>

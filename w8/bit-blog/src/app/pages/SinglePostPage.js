@@ -34,7 +34,7 @@ class SinglePostPage extends Component {
 
     postContent() {
         return (
-            <div>
+            <div className="text-center">
                 <h1>{this.state.singlePost.title}</h1>
                 <Link to={`/authors/${this.state.singlePost.authorId}`}>{this.state.singlePost.authorName}</Link>
                 <p>{this.state.singlePost.body}</p>
@@ -47,7 +47,7 @@ class SinglePostPage extends Component {
             <React.Fragment>
                 <hr />
                 <h4> 3 more posts from the same author</h4>
-                <ul>
+                <ul className="navbar-nav">
                     <li><Link to={`/posts/${this.state.singlePost.authorPosts[0].id}`}>{this.state.singlePost.authorPosts[0].title}</Link></li>
                     <li><Link to={`/posts/${this.state.singlePost.authorPosts[1].id}`}>{this.state.singlePost.authorPosts[1].title}</Link></li>
                     <li><Link to={`/posts/${this.state.singlePost.authorPosts[2].id}`}>{this.state.singlePost.authorPosts[2].title}</Link></li>
