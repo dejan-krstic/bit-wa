@@ -9,3 +9,7 @@ body {
     min-height:100vh;
     position: relative;
 }
+ul {
+    margin-bottom: 0!important;
+    padding-bottom: 4rem;
+}
