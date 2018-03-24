@@ -1,33 +1,57 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import BackButton from '../partials/BackButton'
+import data from '../../services/DataService'
 
 class SinglePostPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
             back: () => { window.history.back() },
-            
+            postId: this.getId(props),
+            singlePost: {
+                title: null,
+                body: null,
+                authorName: null,
+                authorId: null,
+                authorPosts: [{ title: null, id: null }, { title: null, id: null }, { title: null, id: null }]
+            }
+
         }
     }
 
-    postContent(id) {
+    componentDidMount() {
+        data.getPostById(this.state.postId)
+            .then((singlePost) => {
+                this.setState({ singlePost: singlePost })
+            });
+    }
+
+    getId(props) {
+        const path = props.location.pathname.split('/');
+        return path[path.length - 1]
+    }
+
+    postContent() {
         return (
             <div>
-                <h1>Post</h1>
-                <Link to={`/authors/${id}`} />
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ex qui commodi a ad expedita mollitia obcaecati ut laboriosam officiis!</p>
+                <h1>{this.state.singlePost.title}</h1>
+                <Link to={`/authors/${this.state.singlePost.authorId}`}>{this.state.singlePost.authorName}</Link>
+                <p>{this.state.singlePost.body}</p>
             </div>
         )
     }
 
-    getSuggestions(id) {
+    getSuggestions() {
         return (
             <React.Fragment>
+                <hr />
                 <h4> 3 more posts from the same author</h4>
-                <a src='/'>Mock Link 1</a>
-                <a src='/'>Mock Link 2</a>
-                <a src='/'>Mock Link 3</a>
+                <ul>
+                    <li><Link to={`/posts/${this.state.singlePost.authorPosts[0].id}`}>{this.state.singlePost.authorPosts[0].title}</Link></li>
+                    <li><Link to={`/posts/${this.state.singlePost.authorPosts[1].id}`}>{this.state.singlePost.authorPosts[1].title}</Link></li>
+                    <li><Link to={`/posts/${this.state.singlePost.authorPosts[2].id}`}>{this.state.singlePost.authorPosts[2].title}</Link></li>
+                </ul>
             </React.Fragment>
         )
     }
@@ -37,8 +61,8 @@ class SinglePostPage extends Component {
         return (
             <div className="container">
                 <BackButton back={this.state.back} />
-                {/* {this.postContent(1)}
-                    {this.getSuggestions(2)} */}
+                {this.postContent()}
+                {this.getSuggestions()}
             </div>
         )
     }

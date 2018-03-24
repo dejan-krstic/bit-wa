@@ -14,7 +14,7 @@ class AuthorsPage extends Component {
             <div className="container">
                 <h3>AUTHORS ({this.state.authorList.length})</h3>
                 <ul>
-                    {this.state.authorList.map((author, i) => <Link to={`/authors/${i}`}><li>Name Surname</li></Link>)}
+                    {this.state.authorList.map((author, i) => <Link key={i} to={`/authors/${i}`}><li>Name Surname</li></Link>)}
                 </ul>
             </div>
         )

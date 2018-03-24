@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 const PostItem = (props) => {
     return (
         <React.Fragment>
-            <Link to={`/posts/${props.id}`}>
-                <h3>Title {props.id}</h3>
+            <Link to={`/posts/${props.post.id}`}>
+                <h3>{props.post.title}</h3>
             </Link>
-            <p>{props.post.bodyText}</p>
+            <p>{props.post.body}</p>
         </React.Fragment>
 
     )
