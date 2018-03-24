@@ -5,7 +5,6 @@ import Footer from '../partials/Footer';
 import UsersList from '../users/UsersList';
 import userService from '../../services/UserService';
 import Search from '../partials/Search';
-import { Route, Link, Redirect, Switch } from 'react-router-dom';
 import LoadingAnimation from '../partials/LoadingAnimation';
 import Message from '../partials/Message';
 import calculateUpdateDuration from '../../shared/helperFunctions'

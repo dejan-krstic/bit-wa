@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import {Switch, Route} from 'react-router-dom';
 import Home from './pages/Home'
-import Details from './pages/Details'
 import About from './pages/About'
 
 const App = (props) => {
