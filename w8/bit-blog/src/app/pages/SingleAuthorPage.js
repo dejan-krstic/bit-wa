@@ -65,6 +65,7 @@ class SingleAuthorPage extends Component {
 
     authorAddress() {
         const address = this.state.authorData.address;
+        console.log(address.geo.lat,address.geo.long);
         return (
             <div className="card">
                 <div className="card-body">
@@ -78,7 +79,8 @@ class SingleAuthorPage extends Component {
                             </div>
                         </div>
                         <div className="col-3">
-                            <img className="card-img-right" src="" alt="imagine that here is a map" />
+                        <iframe width="200" height="170" src = "https://maps.google.com/maps?q=-31.8129,62.5342&hl=es;z=14&amp;output=embed"></iframe>
+                        <iframe width="200" height="170" src = {`https://maps.google.com/maps?q=${address.geo.lat},${address.geo.long}&hl=es;z=14&amp;output=embed`}></iframe>                       
                         </div>
                     </div>
                 </div>

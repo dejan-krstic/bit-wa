@@ -22,7 +22,7 @@ class AuthorsPage extends Component {
             <div className="container">
                 <h3>AUTHORS ({this.state.authorList.length})</h3>
                 <ul className="navbar-nav">
-                    {this.state.authorList.map(author => <Link key={author.id} to={`/authors/${author.id}`}><li>{author.name}</li></Link>)}
+                    {this.state.authorList.map(author => <Link key={author.id} to={`/authors/${author.id}`}><li>{`${author.name} (${author.posts.length})`}</li></Link>)}
                 </ul>
             </div>
         )

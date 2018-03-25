@@ -30,7 +30,8 @@ class DataService {
 
     async getAuthors() {
         const response = await axios.get(`${url}users`);
-        return response.data.map(author => new Author(author.name, author.id))
+        const authorPosts = await axios.all(response.data.map(author => axios.get(`${url}posts?userId=${author.id}`)))
+        return response.data.map((author,i) => new Author(author.name, author.id, authorPosts[i].data))
     }
 
     async getAuthorById(authorId) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage'
 import SinglePostPage from './pages/SinglePostPage'
+import NewPostPage from './pages/NewPostPage'
 import SingleAuthorPage from './pages/SingleAuthorPage'
 import AboutPage from './pages/AboutPage'
 import AuthorsPage from './pages/AuthorsPage'
@@ -15,6 +16,7 @@ const App = (props) => {
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
+        <Route path='/posts/new' component={NewPostPage} />
         <Route path='/posts/:id' component={SinglePostPage} />
         <Route path='/authors/:id' component={SingleAuthorPage}/>
         <Route path='/authors' component={AuthorsPage} />
