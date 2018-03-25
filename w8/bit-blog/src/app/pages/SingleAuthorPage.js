@@ -1,28 +1,60 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import data from '../../services/DataService'
+import {getId} from '../../shared/utilities'
 
 class SingleAuthorPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            authorId: getId(props),
+            authorData: {
+                name: {
+                    image: null,
+                    name: null,
+                    username: null,
+                    email: null,
+                    phone: null
+                },
+                address: {
+                    street: null,
+                    city: null,
+                    zipCode: null,
+                    geo: {
+                        lat: null,
+                        long: null
+                    }
+                },
+                company: {
+                    name: null,
+                    slogan: null
+                }
+            }
         }
     }
 
+    componentDidMount() {
+        data.getAuthorById(this.state.authorId)
+            .then(authorData => {
+                this.setState({authorData: authorData})
+            })
+    }
+
     authorProfile() {
+        const profile = this.state.authorData.name;
         return (
             <div className="card">
                 <div className="card-body">
-                    <div class="row">
-                        <div class="col-3">
-                            <img className="card-img-left" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNLzZszQbQf6jkknIGI8A3rj-0BoEngyi9156njfrCjPED9_b2vw" alt="Card cap" />
+                    <div className="row">
+                        <div className="col-3">
+                            <img className="card-img-left" src={profile.image} alt={profile.name} />
                         </div>
-                        <div class="col-9">
+                        <div className="col-9">
                             <div className="card-text">
-                                <h3>Name Surname</h3>
-                                <p>username:</p>
-                                <p>email:</p>
-                                <p>phone:</p>
+                                <h3>{profile.name}</h3>
+                                <p>{`username: ${profile.username}`}</p>
+                                <p>{`email: ${profile.email}`}</p>
+                                <p>{`phone: ${profile.phone}`}</p>
                             </div>
                         </div>
                     </div>
@@ -32,20 +64,21 @@ class SingleAuthorPage extends Component {
     }
 
     authorAddress() {
+        const address = this.state.authorData.address;
         return (
             <div className="card">
                 <div className="card-body">
-                    <div class="row">
-                        <div class="col-9">
+                    <div className="row">
+                        <div className="col-9">
                             <div className="card-text">
                                 <h3>Address</h3>
-                                <p>street:</p>
-                                <p>city:</p>
-                                <p>zipcode:</p>
+                                <p>{`street: ${address.street}`}</p>
+                                <p>{`city: ${address.city}`}</p>
+                                <p>{`zipcode: ${address.zipCode}`}</p>
                             </div>
                         </div>
-                        <div class="col-3">
-                            <img className="card-img-right" src="http://www.dailyfreepsd.com/wp-content/uploads/2013/09/flat-map-mockup.png" alt="Card cap" height="200px"/>
+                        <div className="col-3">
+                            <img className="card-img-right" src="" alt="imagine that here is a map" />
                         </div>
                     </div>
                 </div>
@@ -54,15 +87,16 @@ class SingleAuthorPage extends Component {
     }
 
     authorCompany() {
+        const company = this.state.authorData.company;
         return (
             <div className="card">
                 <div className="card-body">
-                    <div class="row">
-                        <div class="col-12">
+                    <div className="row">
+                        <div className="col-12">
                             <div className="card-text">
                                 <h3>Company</h3>
-                                <p>name:</p>
-                                <p>slogan:</p>
+                                <p>{`name: ${company.name}`}</p>
+                                <p>{`slogan: ${company.slogan}`}</p>
                             </div>
                         </div>
                     </div>

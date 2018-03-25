@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import BackButton from '../partials/BackButton'
 import data from '../../services/DataService'
+import {getId} from '../../shared/utilities'
 
 class SinglePostPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
             back: () => { window.history.back() },
-            postId: this.getId(props),
+            postId: getId(props),
             singlePost: {
                 title: null,
                 body: null,
@@ -25,11 +26,6 @@ class SinglePostPage extends Component {
             .then((singlePost) => {
                 this.setState({ singlePost: singlePost })
             });
-    }
-
-    getId(props) {
-        const path = props.location.pathname.split('/');
-        return path[path.length - 1]
     }
 
     postContent() {
