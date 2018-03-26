@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios'
+import data from '../../services/DataService'
+import {url} from '../../shared/constants'
+
 
 export default class NewPost extends Component {
     constructor(props) {
@@ -70,23 +73,14 @@ export default class NewPost extends Component {
 
     }
     
-    onSubmit(){  // TODO: move to services
+    onSubmit(){
         if (this.state.inputTitle == '' || this.state.inputBody == '') {
             return
         }
-        axios({
-            method: 'post',
-            url: 'https://jsonplaceholder.typicode.com/posts',
-            data: {
-                'title': this.state.inputTitle,
-                'body': this.state.inputBody
-            },
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-        .then(response => {
+        data.postData (url, this.state.inputTitle, this.state.inputBody, 'posts')
+            .then(response => {
             if (response.status < 400) {
+                console.log(response);
                 this.props.history.push('/')
             }
         })

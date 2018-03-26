@@ -41,7 +41,21 @@ class DataService {
             address: new Address(authorData.data.address.street, authorData.data.address.city, authorData.data.address.zipcode, authorData.data.address.geo.lat, authorData.data.address.geo.lng),
             company: new Company(authorData.data.company.name, authorData.data.company.catchPhrase)
         }
-}}
+    }
+    async postData(url,title,body, config){
+        return await axios({
+            method: 'post',
+            url: url+config,
+            data: {
+                'title': title,
+                'body': body,
+            },
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+    }
+}
 
 const data = new DataService()
 
