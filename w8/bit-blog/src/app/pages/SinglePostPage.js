@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import BackButton from '../partials/BackButton'
 import data from '../../services/DataService'
-import {getId} from '../../shared/utilities'
 
 class SinglePostPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
             back: () => { window.history.back() },
-            postId: getId(props),
+            postId: this.props.match.params.id,
             singlePost: {
                 title: null,
                 body: null,
@@ -20,14 +19,21 @@ class SinglePostPage extends Component {
 
         }
     }
-
-    componentDidMount() {
-        data.getPostById(this.state.postId)
+    updatePosts(postId) {
+        data.getPostById(postId)
             .then((singlePost) => {
                 this.setState({ singlePost: singlePost })
             });
     }
 
+
+    componentDidMount() { 
+        this.updatePosts(this.state.postId)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.updatePosts(nextProps.match.params.id)
+    }
     postContent() {
         return (
             <div className="text-center">

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import data from '../../services/DataService'
-import {getId} from '../../shared/utilities'
 
 class SingleAuthorPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            authorId: getId(props),
+            authorId: this.props.match.params.id,
             authorData: {
                 name: {
                     image: null,

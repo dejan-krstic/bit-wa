@@ -7,7 +7,7 @@ const PostItem = (props) => {
             <Link to={`/posts/${props.post.id}`}>
                 <h3>{props.post.title}</h3>
             </Link>
-            <p>{props.post.body}</p>
+            <p className="text-truncate">{props.post.body}</p>
         </React.Fragment>
 
     )
