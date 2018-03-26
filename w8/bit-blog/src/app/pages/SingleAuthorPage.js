@@ -79,7 +79,8 @@ class SingleAuthorPage extends Component {
                             </div>
                         </div>
                         <div className="col-3">
-                        <img src = {`${STATIC_MAP}center=${address.geo.lat},${address.geo.long}&zoom=2&size=200x200&markers=color:red%7C${address.geo.lat},${address.geo.long}&key=${GOOGLE_MAPS_API_KEY}`}/>
+                        {/* <iframe src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45283.58581665922!2d${address.geo.lat}!3d${address.geo.long}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a4ede0c962ded%3A0x9d8770a450583eec!2z0J3QsNGG0LjQvtC90LDQu9C90LAg0LLQvtC30LDRh9C60LAg0LDQutCw0LTQtdC80LjRmNCw!5e0!3m2!1ssr!2srs!4v1522072731091`} width="200" height="200"  allowFullScreen></iframe> */}
+                        <img src = {`${STATIC_MAP}center=${address.geo.lat},${address.geo.long}&zoom=2&size=128x128&markers=color:red%7C${address.geo.lat},${address.geo.long}&key=${GOOGLE_MAPS_API_KEY}`}/>
                         </div>
                     </div>
                 </div>

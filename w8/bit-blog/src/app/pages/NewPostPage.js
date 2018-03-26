@@ -7,24 +7,73 @@ export default class NewPost extends Component {
         super(props)
         this.state = {
             inputTitle: '',
-            inputBody: ''
+            inputBody: '',
+            validationClassT: '',
+            validationClassB: '',
+            smallValidationClassT: '',
+            smallValidationClassB: '',
+            titleValidationMessage: '',
+            bodyValidationMessage: '',
+            submitClass: 'disabled'
+
         }
         this.onSubmit=this.onSubmit.bind(this)
         this.cancelForm=this.cancelForm.bind(this)
         this.getTitle=this.getTitle.bind(this)
         this.getBody=this.getBody.bind(this)
+        this.isFilled=this.isFilled.bind(this)
+    }
+
+    isFilled(e){
+        const title = document.getElementById('Name')
+        const body = document.getElementById('Message')
+        if (title.value != '' && body.value != '') {
+            this.setState({ submitClass: '' }) 
+        } else {
+            this.setState({ submitClass: 'disabled'})
+        }
     }
 
     getTitle(e){
-        this.setState({inputTitle: e.target.value})
+        if (e.target.value == '') {
+            this.setState({
+                validationClassT: 'is-invalid',
+                titleValidationMessage: 'Provide a valid input!',
+                smallValidationClassT: 'invalid-feedback'
+            })
+        } else {
+            this.setState({
+                validationClassT: '',
+                titleValidationMessage: '',
+                smallValidationClassT: ''
+            })
+            this.setState({inputTitle: e.target.value})
+        }
 
     }
     
     getBody(e){
-        this.setState({inputBody: e.target.value})
+        if (e.target.value == '') {
+            this.setState({
+                validationClassB: 'is-invalid',
+                bodyValidationMessage: 'Provide a valid input!',
+                smallValidationClassB: 'invalid-feedback'
+            })
+        } else {
+            this.setState({
+                validationClassB: '',
+                bodyValidationMessage: '',
+                smallValidationClassB: ''
+            })
+            this.setState({inputBody: e.target.value})
+        }
+
     }
     
     onSubmit(){  // TODO: move to services
+        if (this.state.inputTitle == '' || this.state.inputBody == '') {
+            return
+        }
         axios({
             method: 'post',
             url: 'https://jsonplaceholder.typicode.com/posts',
@@ -60,7 +109,8 @@ export default class NewPost extends Component {
                                 <div className="col-md-12">
                                     <div className="form-group"> 
                                         <label className="row">Title
-                                        <input type="text" onBlur={this.getTitle} className="form-control col-md-12" name="title" autoComplete="off" id="Name" placeholder="Post title" />
+                                        <input type="text" onBlur={this.getTitle} onChange={this.isFilled} className={`form-control col-md-12 ${this.state.validationClassT}`} name="title" autoComplete="off" id="Name" placeholder="Post title"/>
+                                        <small className={this.state.smallValidationClassT}>{this.state.titleValidationMessage}</small>
                                         </label>                                   
                                     </div>
                                 </div>
@@ -70,7 +120,8 @@ export default class NewPost extends Component {
                                 <div className="col-md-12">
                                     <div className="form-group">
                                         <label className="row">Content
-                                        <textarea onBlur={this.getBody} className="form-control textarea" rows="7" name="body" id="Message" placeholder="Multi-line-textarea"></textarea>
+                                        <textarea onBlur={this.getBody} onChange={this.isFilled} className={`form-control textarea ${this.state.validationClassB}`} rows="7" name="body" id="Message" placeholder="Multi-line-textarea"></textarea>
+                                        <small className={this.state.smallValidationClassB}>{this.state.bodyValidationMessage}</small>
                                         </label>
                                     </div>
                                 </div>
@@ -80,7 +131,7 @@ export default class NewPost extends Component {
                                     <button type="button" className="btn main-btn pull-right col-md-10 offset-md-2">Cancel</button>
                                 </div>
                                 <div className="col-md-3 row" onClick={this.onSubmit}>
-                                    <button type="submit"  className="btn main-btn pull-right col-md-10 offset-md-2">Save</button>
+                                    <button type="submit"  className={`btn btn-info pull-right col-md-10 offset-md-2 ${this.state.submitClass}`}>Save</button>
                                 </div>
                             </div>
                         </div>
