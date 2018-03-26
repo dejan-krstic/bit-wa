@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import data from '../../services/DataService'
+import {GOOGLE_MAPS_API_KEY, STATIC_MAP} from '../../shared/constants'
 
 class SingleAuthorPage extends Component {
     constructor(props) {
@@ -20,8 +21,8 @@ class SingleAuthorPage extends Component {
                     city: null,
                     zipCode: null,
                     geo: {
-                        lat: null,
-                        long: null
+                        lat: 0,
+                        long: 0
                     }
                 },
                 company: {
@@ -78,8 +79,7 @@ class SingleAuthorPage extends Component {
                             </div>
                         </div>
                         <div className="col-3">
-                        <iframe width="200" height="170" src = "https://maps.google.com/maps?q=-31.8129,62.5342&hl=es;z=14&amp;output=embed"></iframe>
-                        <iframe width="200" height="170" src = {`https://maps.google.com/maps?q=${address.geo.lat},${address.geo.long}&hl=es;z=14&amp;output=embed`}></iframe>                       
+                        <img src = {`${STATIC_MAP}center=${address.geo.lat},${address.geo.long}&zoom=2&size=200x200&markers=color:red%7C${address.geo.lat},${address.geo.long}&key=${GOOGLE_MAPS_API_KEY}`}/>
                         </div>
                     </div>
                 </div>
@@ -120,3 +120,6 @@ class SingleAuthorPage extends Component {
 }
 
 export default SingleAuthorPage
+
+
+// https://developers.google.com/maps/documentation/static-maps/intro#ImplicitPositioning
