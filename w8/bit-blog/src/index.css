@@ -13,3 +13,6 @@ body {
 ul {
     margin-bottom: 0!important;
 }
+.white>a {
+    color: white!important
+}
