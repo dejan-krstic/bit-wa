@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PostItem from '../shared/PostItem'
 import data from '../../services/DataService'
+import Loader from '../loader/Loader'
 
 class HomePage extends Component {
     constructor(props) {
@@ -19,6 +20,9 @@ class HomePage extends Component {
     }
 
     render() {
+        if (this.state.postList.length === 0) {
+            return <Loader/>
+        }
         return <div className="container">
             <h3 className="text-center">POSTS</h3>
             <ul>

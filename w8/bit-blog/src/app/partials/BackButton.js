@@ -2,7 +2,9 @@ import React from 'react'
 
 const BackButton = (props) => {
     return (
-        <p onClick={props.back}>{`< Back`}</p> 
+        <button type="button" class="btn btn-info" onClick={props.back} >{`<   Back`}</button>
     )
 }
 export default BackButton;
+
+

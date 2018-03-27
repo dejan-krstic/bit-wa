@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import data from '../../services/DataService'
+import Loader from '../loader/Loader'
 
 class AuthorsPage extends Component {
     constructor(props) {
@@ -18,6 +19,9 @@ class AuthorsPage extends Component {
     }
 
     render() {
+        if (this.state.authorList.length === 0) {
+            return <Loader/>
+        }
         return (
             <div className="container">
                 <h3>AUTHORS ({this.state.authorList.length})</h3>

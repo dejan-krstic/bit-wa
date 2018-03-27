@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
-import axios from 'axios'
 import data from '../../services/DataService'
-import {url} from '../../shared/constants'
+import { url } from '../../shared/constants'
 
 
 export default class NewPost extends Component {
@@ -20,25 +18,25 @@ export default class NewPost extends Component {
             submitClass: 'disabled'
 
         }
-        this.onSubmit=this.onSubmit.bind(this)
-        this.cancelForm=this.cancelForm.bind(this)
-        this.getTitle=this.getTitle.bind(this)
-        this.getBody=this.getBody.bind(this)
-        this.isFilled=this.isFilled.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
+        this.cancelForm = this.cancelForm.bind(this)
+        this.getTitle = this.getTitle.bind(this)
+        this.getBody = this.getBody.bind(this)
+        this.isFilled = this.isFilled.bind(this)
     }
 
-    isFilled(e){
+    isFilled(e) {
         const title = document.getElementById('Name')
         const body = document.getElementById('Message')
-        if (title.value != '' && body.value != '') {
-            this.setState({ submitClass: '' }) 
+        if (title.value.split(' ').join('') !== '' && body.value.split(' ').join('') !== '') {
+            this.setState({ submitClass: '' })
         } else {
-            this.setState({ submitClass: 'disabled'})
+            this.setState({ submitClass: 'disabled' })
         }
     }
 
-    getTitle(e){
-        if (e.target.value == '') {
+    getTitle(e) {
+        if (e.target.value === '') {
             this.setState({
                 validationClassT: 'is-invalid',
                 titleValidationMessage: 'Provide a valid input!',
@@ -50,13 +48,13 @@ export default class NewPost extends Component {
                 titleValidationMessage: '',
                 smallValidationClassT: ''
             })
-            this.setState({inputTitle: e.target.value})
+            this.setState({ inputTitle: e.target.value })
         }
 
     }
-    
-    getBody(e){
-        if (e.target.value == '') {
+
+    getBody(e) {
+        if (e.target.value === '') {
             this.setState({
                 validationClassB: 'is-invalid',
                 bodyValidationMessage: 'Provide a valid input!',
@@ -68,28 +66,28 @@ export default class NewPost extends Component {
                 bodyValidationMessage: '',
                 smallValidationClassB: ''
             })
-            this.setState({inputBody: e.target.value})
+            this.setState({ inputBody: e.target.value })
         }
 
     }
-    
-    onSubmit(){
-        if (this.state.inputTitle == '' || this.state.inputBody == '') {
+
+    onSubmit() {
+        if (this.state.inputTitle.split(' ').join('').length === 0 || this.state.inputBody.split(' ').join('').length === 0 ) {
             return
         }
-        data.postData (url, this.state.inputTitle, this.state.inputBody, 'posts')
+        data.postData(url, this.state.inputTitle, this.state.inputBody, 'posts')
             .then(response => {
-            if (response.status < 400) {
-                console.log(response);
-                this.props.history.push('/')
-            }
-        })
+                if (response.status < 400) {
+                    console.log(response);
+                    this.props.history.push('/')
+                }
+            })
     }
-    
-    cancelForm(){
+
+    cancelForm() {
         this.props.history.push('/')
     }
-    
+
     render() {
         return (
             <React.Fragment>
@@ -101,11 +99,11 @@ export default class NewPost extends Component {
                         <div id="contact-form" className="contact-form col-md-10 offset-md-1">
                             <div className="row">
                                 <div className="col-md-12">
-                                    <div className="form-group"> 
+                                    <div className="form-group">
                                         <label className="row">Title
-                                        <input type="text" onBlur={this.getTitle} onChange={this.isFilled} className={`form-control col-md-12 ${this.state.validationClassT}`} name="title" autoComplete="off" id="Name" placeholder="Post title"/>
-                                        <small className={this.state.smallValidationClassT}>{this.state.titleValidationMessage}</small>
-                                        </label>                                   
+                                        <input type="text" onBlur={this.getTitle} onChange={this.isFilled} className={`form-control col-md-12 ${this.state.validationClassT}`} name="title" autoComplete="off" id="Name" placeholder="Post title" />
+                                            <small className={this.state.smallValidationClassT}>{this.state.titleValidationMessage}</small>
+                                        </label>
                                     </div>
                                 </div>
 
@@ -115,7 +113,7 @@ export default class NewPost extends Component {
                                     <div className="form-group">
                                         <label className="row">Content
                                         <textarea onBlur={this.getBody} onChange={this.isFilled} className={`form-control textarea ${this.state.validationClassB}`} rows="7" name="body" id="Message" placeholder="Multi-line-textarea"></textarea>
-                                        <small className={this.state.smallValidationClassB}>{this.state.bodyValidationMessage}</small>
+                                            <small className={this.state.smallValidationClassB}>{this.state.bodyValidationMessage}</small>
                                         </label>
                                     </div>
                                 </div>
@@ -125,7 +123,7 @@ export default class NewPost extends Component {
                                     <button type="button" className="btn main-btn pull-right col-md-10 offset-md-2">Cancel</button>
                                 </div>
                                 <div className="col-md-3 row" onClick={this.onSubmit}>
-                                    <button type="submit"  className={`btn btn-info pull-right col-md-10 offset-md-2 ${this.state.submitClass}`}>Save</button>
+                                    <button type="submit" className={`btn btn-info pull-right col-md-10 offset-md-2 ${this.state.submitClass}`}>Save</button>
                                 </div>
                             </div>
                         </div>

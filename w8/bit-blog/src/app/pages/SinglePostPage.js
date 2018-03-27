@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import BackButton from '../partials/BackButton'
 import data from '../../services/DataService'
+import Loader from '../loader/Loader'
 
 class SinglePostPage extends Component {
     constructor(props) {
@@ -9,16 +10,11 @@ class SinglePostPage extends Component {
         this.state = {
             back: () => { window.history.back() },
             postId: this.props.match.params.id,
-            singlePost: {
-                title: null,
-                body: null,
-                authorName: null,
-                authorId: null,
-                authorPosts: [{ title: null, id: null }, { title: null, id: null }, { title: null, id: null }]
-            }
+            singlePost: {}
 
         }
     }
+
     updatePosts(postId) {
         data.getPostById(postId)
             .then((singlePost) => {
@@ -45,6 +41,7 @@ class SinglePostPage extends Component {
     }
 
     getSuggestions() {
+        
         return (
             <React.Fragment>
                 <hr />
@@ -60,6 +57,9 @@ class SinglePostPage extends Component {
 
 
     render() {
+        if (JSON.stringify(this.state.singlePost) === JSON.stringify({})) {
+            return <Loader/>
+        }
         return (
             <div className="container">
                 <BackButton back={this.state.back} />
