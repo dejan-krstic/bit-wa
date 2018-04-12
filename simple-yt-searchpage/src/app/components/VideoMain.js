@@ -1,8 +1,9 @@
 import React from 'react';
+import { LOADER_URL } from '../constants/constants'
 
 const VideoMain = ({ video, autoplay }) => {
     if (!video) {
-        return <img src='http://gifimage.net/wp-content/uploads/2017/10/colorful-loader-gif-11.gif' alt='loader' />
+        return <img src={LOADER_URL} alt='loader' />
     }
 
     const url = `https://www.youtube.com/embed/${video.id}${autoplay}`
